@@ -1,7 +1,6 @@
-{{-- @include('cdn') --}}
 <html>
 <head>
-    <title>DK patel form</title>
+    <title>Update Profile</title>
     <link rel="stylesheet" href="css\bootstrap.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -22,15 +21,20 @@
         }
     </style>
 </head>
+@foreach ($reg_data as $r1)
+@php
+$h = explode(',', $r1['subject']);
+@endphp
 
-<form action="data" method="post" id="form1" enctype="multipart/form-data">
+<form action="{{ URL::to('/') }}/Update_registration" method="post" id="form1" enctype="multipart/form-data">
+{{-- <form method="POST" id="form1" enctype="multipart/form-data"> --}}
     @csrf
     <section class="">
         <div class="container">
             <div class="row d-flex justify-content-center align-items-center ">
                 <div class="col-xl-9">
 
-                    <h1 class="text-black mb-4" style="text-align:center">Registration</h1>
+                    <h1 class="text-black mb-4" style="text-align:center">Update</h1>
 
                     <div class="card" style="border-radius: 10px;">
                         <div class="card-body">
@@ -50,7 +54,7 @@
                                 <div class="col-md-9 pe-5">
                                     <input type="text" class="form-control form-control-lg"
                                         placeholder="Your Name Goes Here.." name="sn"
-                                        value="{{ old('sn') }}" />
+                                        value="{{ $r1['Full_name'] }}" />
 
                                     <span style="color: red">
                                         @error('sn')
@@ -73,18 +77,18 @@
                                     <select class="form-control" id="brance" name="br">
                                         <option selected></option>
                                         <option value="D.Engg - Civil Engineering"
-                                            @if (old('br') == 'D.Engg - Civil Engineering') selected @endif>D.Engg - Civil Engineering
+                                            @if ($r1['Brance'] == 'D.Engg - Civil Engineering') selected @endif>D.Engg - Civil Engineering
                                         </option>
                                         <option value="D.Engg - Computer Engineering"
-                                            @if (old('br') == 'D.Engg - Computer Engineering') selected @endif>
+                                            @if ($r1['Brance'] == 'D.Engg - Computer Engineering') selected @endif>
                                             D.Engg - Computer Engineering
                                         </option>
                                         <option value="D.Engg - Electrical Engineering"
-                                            @if (old('br') == 'D.Engg - Electrical Engineering') selected @endif>D.Engg - Electrical
+                                            @if ($r1['Brance'] == 'D.Engg - Electrical Engineering') selected @endif>D.Engg - Electrical
                                             Engineering
                                         </option>
                                         <option value="D.Engg - Mechanical Engineering"
-                                            @if (old('br') == 'D.Engg - Mechanical Engineering') selected @endif>D.Engg - Mechanical
+                                            @if ($r1['Brance'] == 'D.Engg - Mechanical Engineering') selected @endif>D.Engg - Mechanical
                                             Engineering
                                         </option>
                                     </select>
@@ -103,11 +107,11 @@
                                 </div>
                                 <div class="col-md-9 pe-5">
                                     <input class="" type="checkbox" name="subject[]" value="WDTF"
-                                        @if (is_array(old('subject')) && in_array('WDTF', old('subject'))) checked @endif />WDT
+                                        @if (is_array($h) && in_array('WDTF', $h)) checked @endif />WDT
                                     <input class="" type="checkbox" name="subject[]" value="SAD"
-                                        @if (is_array(old('subject')) && in_array('SAD', old('subject'))) checked @endif />SAD
+                                        @if (is_array($h) && in_array('SAD', $h)) checked @endif />SAD
                                     <input class="" type="checkbox" name="subject[]" value="CN"
-                                        @if (is_array(old('subject')) && in_array('CN', old('subject'))) checked @endif />CN
+                                        @if (is_array($h) && in_array('CN', $h)) checked @endif />CN
                                 </div>
                                 <span style="color: red">
                                     @error('subject')
@@ -126,7 +130,7 @@
                                 </div>
                                 <div class="col-md-9 pe-5">
                                     <input class="form-control form-control-lg" id="formFileLg" type="number"
-                                        placeholder="Current Semseter" name="sem" value="{{ old('sem') }}" />
+                                        placeholder="Current Semseter" name="sem" value="{{ $r1['Semester'] }}" />
                                     <span style="color: red">
                                         @error('sem')
                                             {{ $message }}
@@ -143,7 +147,7 @@
                                 <div class="col-md-9 pe-5">
                                     <!-- <input class="form-control form-control-lg" id="formFileLg" type="text" placeholder="Resident or Address"name="add" required/> -->
                                     <textarea name="add" cols="23" id="formFileLg" rows="2" placeholder="Resident or Address"
-                                        class="form-control form-control-lg">{{ old('add') }}</textarea>
+                                        class="form-control form-control-lg">{{ $r1['Address'] }}</textarea>
                                     <span style="color: red">
                                         @error('add')
                                             {{ $message }}
@@ -159,7 +163,7 @@
                                 </div>
                                 <div class="col-md-9 pe-5">
                                     <input class="form-control form-control-lg" id="formFileLg" type="number"
-                                        placeholder="Mobile No" name="mob" value="{{ old('mob') }}" />
+                                        placeholder="Mobile No" name="mob" value="{{ $r1['Mobile'] }}" />
                                     <span style="color: red">
                                         @error('mob')
                                             {{ $message }}
@@ -176,7 +180,7 @@
                                 <div class="col-md-9 pe-5">
                                     <input class="form-control form-control-lg" id="formFileLg" type="email"
                                         placeholder="example@example.com" name="em"
-                                        value="{{ old('em') }}" />
+                                        value="{{ $r1['Email'] }}" />
                                     <span style="color: red">
                                         @error('em')
                                             {{ $message }}
@@ -192,7 +196,7 @@
                                 </div>
                                 <div class="col-md-9 pe-5">
                                     <input class="form-control form-control-lg" id="formFileLg" type="password"
-                                        placeholder="Password" name="psw" value="{{ old('psw') }}" />
+                                        placeholder="Password" name="psw" value="{{ $r1['Password'] }}" />
                                     <span style="color: red">
                                         @error('psw')
                                             {{ $message }}
@@ -209,7 +213,7 @@
                                 <div class="col-md-9 pe-5">
                                     <input class="form-control form-control-lg" id="formFileLg" type="password"
                                         placeholder="Password" name="psw_confirmation"
-                                        value="{{ old('psw_confirmation') }}" />
+                                        value="{{ $r1['Password'] }}" />
                                     <span style="color: red">
                                         @error('psw_confirmation')
                                             {{ $message }}
@@ -228,6 +232,8 @@
                                     <input class="form-control form-control-lg" id="formFileLg" type="file"
                                         name="file" />
 
+                                        <img src="{{ URL::to('/') }}/images/profile/{{ $r1['Profile'] }}" height="150px" width="250px" />
+                                        <br>
                                     <div class="small text-muted mt-2">Upload the profile picture that you are
                                         intrested...</div>
 
@@ -252,5 +258,6 @@
         </div>
     </section>
 </form>
+@endforeach
 
 </html>

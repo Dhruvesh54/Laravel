@@ -52,5 +52,17 @@ Route::view('/registration', 'form');
 
 
 // Route::view('form_fatch_data', 'formdata');
-Route::post('data', [democontroller::class, 'getdata']);
-// Route::post('form_fatch', [democontroller::class, 'validation']);
+
+Route::controller(democontroller::class)->group(function(){
+    Route::post('data','getdata');
+    Route::get('Fetch_Registration','fetch_registration_data');
+// Route::get('Fetch_Registration', [democontroller::class, 'fetch_registration_data']);
+Route::get('edit_user/{email}','fetch_data_for_edit');
+// Route::get('edit_user/{email}', [democontroller::class, 'fetch_data_for_edit']);
+Route::get('delete_user/{email}','delete_user_registration');
+Route::get('Deactivate/{email}','deactivate_user_registration');
+Route::get('Activate/{email}','activate_user_registration');
+// Route::post('Update_registration','update_data_registration');
+
+});
+Route::post('Update_registration',[democontroller::class,'update_data_registration']);
