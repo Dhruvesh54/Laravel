@@ -59,10 +59,21 @@ Route::controller(democontroller::class)->group(function(){
 // Route::get('Fetch_Registration', [democontroller::class, 'fetch_registration_data']);
 Route::get('edit_user/{email}','fetch_data_for_edit');
 // Route::get('edit_user/{email}', [democontroller::class, 'fetch_data_for_edit']);
-Route::get('delete_user/{email}','delete_user_registration');
+// Route::get('delete_user/{email}','delete_user_registration');
 Route::get('Deactivate/{email}','deactivate_user_registration');
 Route::get('Activate/{email}','activate_user_registration');
+
+//login
+Route::post('login','validation_login');
+Route::get('logout','logout');
 // Route::post('Update_registration','update_data_registration');
 
+Route::get('delete_user/{email}', 'delete_user_registration');
+Route::post('Update_registration','update_data_registration');
 });
-Route::post('Update_registration',[democontroller::class,'update_data_registration']);
+
+//Session
+Route::view('login_session','form_session');
+Route::middleware('session_check')->group(function () {
+    Route::view('after_login', 'after_login');
+});

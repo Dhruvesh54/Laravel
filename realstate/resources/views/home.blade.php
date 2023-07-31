@@ -23,6 +23,8 @@
                 <a class="nav-link" href="/service">service</a>
                 <a class="nav-link" href="/gallery">gallery</a>
                 <a class="nav-link" href="/registration">registration</a>
+                <a class="nav-link" href="/Fetch_Registration">Fatch</a>
+                <a class="nav-link" href="/login_session">Login</a>
             </div>
         </div>
     </div>

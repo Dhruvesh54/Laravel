@@ -37,10 +37,10 @@ class democontroller extends Controller
         // $fileOriginalName = $request->file('file')->getClientOriginalName();
         // $request->file->move('images', $fileOriginalName);
 
-        $pic_name=uniqid().$request->file('file')->getClientOriginalName();
-        $request->file->move('images/profile',$pic_name);
+        $pic_name = uniqid() . $request->file('file')->getClientOriginalName();
+        $request->file->move('images/profile', $pic_name);
         // $sub = $request->input('subject', []);
-        $h=implode(',',$request->subject);
+        $h = implode(',', $request->subject);
         // return view('formdata', compact('request', 'sub'));
         // return view('formdata', compact('request'));
 
@@ -59,14 +59,13 @@ class democontroller extends Controller
         $student->Email = $request->em;
         $student->Password = $request->psw_confirmation;
         $student->Profile = $pic_name;
-        
+
         if ($student->save()) {
             // echo "Done";
-            session()->flash('success','Registration Susscessfully');
-        }
-        else{
+            session()->flash('success', 'Registration Susscessfully');
+        } else {
             // echo "Error";
-            session()->flash('error','Registration Error');
+            session()->flash('error', 'Registration Error');
 
         }
         return view('form');
@@ -80,20 +79,31 @@ class democontroller extends Controller
     public function fetch_data_for_edit($email)
     {
         $reg_data = student::where('email', $email)->get();
-        return view('edit_registration_form', compact('reg_data'));    }
+        return view('edit_registration_form', compact('reg_data'));
+    }
     public function delete_user_registration($email)
     {
-        return $email;
+        $data = student::where('email', $email)->update(array('status' => 'Deleted'));
+        if ($data) {
+            return $this->fetch_registration_data();
+        }
     }
     public function deactivate_user_registration($email)
     {
-        return $email;
+        $data = student::where('email', $email)->update(array('status' => 'Inactive'));
+        if ($data) {
+            return $this->fetch_registration_data();
+        }
     }
     public function activate_user_registration($email)
     {
-        return $email;
+        $data = student::where('email', $email)->update(array('status' => 'Active'));
+        if ($data) {
+            return $this->fetch_registration_data();
+        }
     }
-    public function update_data_registration(Request $request){
+    public function update_data_registration(Request $request)
+    {
 
         $request->validate([
             'sn' => 'required|min:3|max:20',
@@ -105,7 +115,7 @@ class democontroller extends Controller
             'em' => 'required',
             'psw' => 'required|confirmed|min:3|max:15',
             'psw_confirmation' => 'required',
-            
+
 
         ], [
             'sn.required' => 'Full name field cannot be empty',
@@ -114,23 +124,56 @@ class democontroller extends Controller
         ]);
 
 
-        $h=implode(',',$request->subject);
-        $data = student::where('Email',$request->em)->first();
-        if($request->hasFile('file')){
-            $file_path="images/profile/" . $data['file'];
-            if(File::exists($file_path)){
+        $h = implode(',', $request->subject);
+        $data = student::where('Email', $request->em)->first();
+        if ($request->hasFile('file')) {
+            $file_path = "images/profile/" . $data['file'];
+            if (File::exists($file_path)) {
                 File::delete($file_path);
             }
-        $pic_name=uniqid().$request->file('file')->getClientOriginalName();
-        $request->file->move('images/profile/',$pic_name);
-        $data->where('Email',$request->em)->update(array('Full_name'=>$request->sn,'Brance'=>$request->br,'subject'=>$h,'Semester'=>$request->sem,"Address"=>$request->add,"Mobile"=>$request->mob,"Email"=>$request->em,"Password"=>$request->psw_confirmation,"Profile"=>$pic_name));
+            $pic_name = uniqid() . $request->file('file')->getClientOriginalName();
+            $request->file->move('images/profile/', $pic_name);
+            $data->where('Email', $request->em)->update(array('Full_name' => $request->sn, 'Brance' => $request->br, 'subject' => $h, 'Semester' => $request->sem, "Address" => $request->add, "Mobile" => $request->mob, "Email" => $request->em, "Password" => $request->psw_confirmation, "Profile" => $pic_name));
 
-        }else{
-            $data->where('Email',$request->em)->update(array('Full_name'=>$request->sn,'Brance'=>$request->br,'subject'=>$h,'Semester'=>$request->sem,"Address"=>$request->add,"Mobile"=>$request->mob,"Email"=>$request->em,"Password"=>$request->psw_confirmation));
+        } else {
+            $data->where('Email', $request->em)->update(array('Full_name' => $request->sn, 'Brance' => $request->br, 'subject' => $h, 'Semester' => $request->sem, "Address" => $request->add, "Mobile" => $request->mob, "Email" => $request->em, "Password" => $request->psw_confirmation));
         }
         return redirect('Fetch_Registration');
-
-        
     }
+
+    public function validation_login(Request $request){
+        $Enterd_email = $request->uname;
+        $Enterd_pasword = $request->pwd;
+        
+        $reg_email = student::where('Email', $Enterd_email)->get();
+        // $reg_pass = student::where('Password', $Enterd_pasword)->get('Password');
+
+        $request->session()->forget('uname');
+
+        // echo $reg_email;
+        // echo $reg_pass;
+        foreach ($reg_email as $val) {
+            $em = $val['Email'];
+            $pass = $val['Password'];
+        }
+
+        if ($Enterd_email == $em && $Enterd_pasword == $pass){
+            $request->session()->put('uname',$Enterd_email);
+            $request->session()->put('pwd',$Enterd_pasword);
+
+        }
+
+        return redirect("after_login");
+    }
+
+    public function logout(){
+
+        if(session('uname')){
+            session()->forget('uname');
+            return redirect('login_session');
+        }
+    }
+
+
 
 }

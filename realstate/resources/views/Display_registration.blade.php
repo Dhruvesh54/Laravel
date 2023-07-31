@@ -76,20 +76,28 @@
                     <td>{{ $d['subject'] }}</td>
                     <td>{{ $d['Brance'] }}</td>
                     <td>{{ $d['Address'] }}</td>
-                    <td><img src="images/profile/{{ $d['Profile'] }}" alt="" height="100px" width="100px">
+                    <td><img src="{{URL::to('/')}}/images/profile/{{ $d['Profile'] }}" alt="" height="100px" width="100px">
                     </td>
                     <td>{{ $d['role'] }}</td>
                     <td>{{ $d['status'] }}</td>
-                    <td><a href="edit_user/{{ $d['Email'] }}"><input type="button" class="btn btn-primary"
+
+                    <td><a href="{{URL::to('/')}}/edit_user/{{ $d['Email'] }}"><input type="button" class="btn btn-primary"
                                 value="Edit"></a></td>
-                    <td><a href="delete_registration/{{ $d['Email'] }}"><input type="button" class="btn btn-danger"
+
+                    <td><a href="{{URL::to('/')}}/delete_user/{{ $d['Email'] }}"><input type="button" class="btn btn-danger"
                                 value="Delete"></a></td>
+
                     <td>
                         @if ($d['status'] == 'Active')
-                            <a href="deactivate_user/{{ $d['Email'] }}"><input type="button" class="btn btn-danger"
+                            <a href="{{URL::to('/')}}/Deactivate/{{ $d['Email'] }}"><input type="button" class="btn btn-danger"
                                     value="Deactivate"></a>
+
+                        @elseif($d['status'] == 'Deleted')
+                            <a href="{{URL::to('/')}}/Activate/{{ $d['Email'] }}"><input type="button" class="btn btn-warning"
+                                    value="Reactivate"></a>
+
                         @else
-                            <a href="activate_user/{{ $d['Email'] }}"><input type="button" class="btn btn-success"
+                            <a href="{{URL::to('/')}}/Activate/{{ $d['Email'] }}"><input type="button" class="btn btn-success"
                                     value="Activate"></a>
                         @endif
                     </td>
