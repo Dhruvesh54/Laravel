@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
+use TheSeer\Tokenizer\Exception;
 
 class democontroller extends Controller
 {
@@ -141,10 +143,11 @@ class democontroller extends Controller
         return redirect('Fetch_Registration');
     }
 
-    public function validation_login(Request $request){
+    public function validation_login(Request $request)
+    {
         $Enterd_email = $request->uname;
         $Enterd_pasword = $request->pwd;
-        
+
         $reg_email = student::where('Email', $Enterd_email)->get();
         // $reg_pass = student::where('Password', $Enterd_pasword)->get('Password');
 
@@ -157,23 +160,47 @@ class democontroller extends Controller
             $pass = $val['Password'];
         }
 
-        if ($Enterd_email == $em && $Enterd_pasword == $pass){
-            $request->session()->put('uname',$Enterd_email);
-            $request->session()->put('pwd',$Enterd_pasword);
+        if ($Enterd_email == $em && $Enterd_pasword == $pass) {
+            $request->session()->put('uname', $Enterd_email);
+            $request->session()->put('pwd', $Enterd_pasword);
 
         }
 
         return redirect("after_login");
     }
 
-    public function logout(){
+    public function logout()
+    {
 
-        if(session('uname')){
+        if (session('uname')) {
             session()->forget('uname');
             return redirect('login_session');
         }
     }
 
+    public function send_email(Request $request)
+    {
+        $data = ['name' => $request->nm, 'email' => $request->em];
+        try {
+            Mail::send('create_account_mail', ['data' => $data], function ($message) use ($data) {
+                $message->to($data['email'], $data['name']);
+                $message->attach('images/profile/64b4ec2c67cd1swaminarayn.jpg');
+            });
+            return redirect('email_send_form');
+
+            if (Mail::send()) {
+                // echo "Done";
+                session()->flash('success', 'Mail send Susscessfully');
+            } else {
+                // echo "Error";
+                session()->flash('error', 'Mail Error');
+            }
+        } 
+        
+        catch (Exception $e) {
+            return "error";
+        }
+    }
 
 
 }

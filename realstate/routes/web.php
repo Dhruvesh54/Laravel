@@ -49,7 +49,7 @@ Route::view('index', 'home');
 Route::view('service', 'service');
 Route::view('gallery', 'gallery');
 Route::view('/registration', 'form');
-
+Route::view('email_send_form','gmail_form');
 
 // Route::view('form_fatch_data', 'formdata');
 
@@ -77,3 +77,5 @@ Route::view('login_session','form_session');
 Route::middleware('session_check')->group(function () {
     Route::view('after_login', 'after_login');
 });
+
+Route::post('send_email', [democontroller::class, 'send_email']);
