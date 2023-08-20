@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\democontroller;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\upload;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
@@ -79,3 +80,17 @@ Route::middleware('session_check')->group(function () {
 });
 
 Route::post('send_email', [democontroller::class, 'send_email']);
+
+
+Route::get('join', [democontroller::class, 'join']);
+
+
+
+
+
+
+
+
+
+
+

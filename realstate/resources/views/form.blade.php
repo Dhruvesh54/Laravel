@@ -1,5 +1,6 @@
 {{-- @include('cdn') --}}
 <html>
+
 <head>
     <title>DK patel form</title>
     <link rel="stylesheet" href="css\bootstrap.css">
@@ -111,7 +112,7 @@
                                 </div>
                                 <span style="color: red">
                                     @error('subject')
-                                        {{ $message }} 
+                                        {{ $message }}
                                     @enderror
                                 </span>
                             </div>

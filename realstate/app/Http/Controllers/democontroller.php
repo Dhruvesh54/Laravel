@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use TheSeer\Tokenizer\Exception;
@@ -196,10 +197,17 @@ class democontroller extends Controller
                 session()->flash('error', 'Mail Error');
             }
         } 
-        
-        catch (Exception $e) {
-            return "error";
-        }
+        // catch (Exception $e) {
+        //     return "error";
+        // }
+    }
+
+    public function join()
+    {
+        return DB::table('student2')
+            ->join('student', 'student.id', '=', 'student2.id')
+            ->where('student2.Full_name', 'Dhruvesh')->
+            get();
     }
 
 
