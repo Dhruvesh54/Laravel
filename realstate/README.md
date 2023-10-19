@@ -64,3 +64,47 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+=========================
+Create project : composer create-project laravel/laravel PROJECT NAME
+
+Project start && server : php artisan serve || php -S localhost:8000 -t public/
+
+Create seeder : php artisan make:seeder SEEDER NAME
+
+to do migration : php artisan migrate
+
+create migration : php artisan make:migration create_migration_name
+
+create model : php artisan make:model model_name
+
+Refresh table in database insert : php artisan migrate:fresh --seed
+
+==================================================================================
+==========================<New dashboard created>=================================
+//first
+
+new controller fine create : php artisan make:controller (AdminController)
+	
+
+//second
+Rout Creat
+
+//third 
+HTML file created <File_name.blade.php>
+
+===================================================================================
+==========================<Old projuct run comand>=================================
+1  cp .env.example .env
+2. composer update
+3. composer dump-autoload
+4. php artisan key:generate
+
+// to optimize the project
+php artisan optimize
+
+===================================================================================
+  
+php artisan config:clear
+
