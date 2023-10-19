@@ -11,3 +11,4 @@ class student extends Model
     public $timestamps=false;
     public $table='student';
 }
+

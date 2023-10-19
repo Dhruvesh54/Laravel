@@ -36,7 +36,6 @@ class democontroller extends Controller
             'sn.max' => 'Full name cannot be great then 20 charactor'
         ]);
 
-
         // $fileOriginalName = $request->file('file')->getClientOriginalName();
         // $request->file->move('images', $fileOriginalName);
 
@@ -69,8 +68,8 @@ class democontroller extends Controller
         } else {
             // echo "Error";
             session()->flash('error', 'Registration Error');
-
         }
+
         return view('form');
     }
 
@@ -182,7 +181,7 @@ class democontroller extends Controller
     public function send_email(Request $request)
     {
         $data = ['name' => $request->nm, 'email' => $request->em];
-        try {
+        // try {
             Mail::send('create_account_mail', ['data' => $data], function ($message) use ($data) {
                 $message->to($data['email'], $data['name']);
                 $message->attach('images/profile/64b4ec2c67cd1swaminarayn.jpg');
@@ -190,16 +189,11 @@ class democontroller extends Controller
             return redirect('email_send_form');
 
             if (Mail::send()) {
-                // echo "Done";
                 session()->flash('success', 'Mail send Susscessfully');
             } else {
-                // echo "Error";
                 session()->flash('error', 'Mail Error');
             }
-        } 
-        // catch (Exception $e) {
-        //     return "error";
-        // }
+        // } 
     }
 
     public function join()

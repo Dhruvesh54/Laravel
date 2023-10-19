@@ -45,12 +45,6 @@ class UaersTableSeeder extends Seeder
                 'role' => 'user',
                 'status' => 'active',
             ],
-
-
-
-
-
-
         ]);
     }
 }
